@@ -5,7 +5,7 @@
 
 module Main (main) where
 
-import Lib
+import Fs
 import System.Console.CmdArgs
 
 data CliConfig = CliConfig {dataDir :: FilePath, withDotFiles :: Bool, followSymLinks :: Bool, withLatestSystem :: Bool} deriving (Show, Data, Typeable)
@@ -13,7 +13,8 @@ data CliConfig = CliConfig {dataDir :: FilePath, withDotFiles :: Bool, followSym
 main :: IO ()
 main = do
   config <- cmdArgs cc
-  print config
+  filesToBackup <- listBackupFiles $ dataDir config
+  print filesToBackup
   where
     cc =
       CliConfig
